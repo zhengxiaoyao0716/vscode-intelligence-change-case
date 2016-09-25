@@ -1,0 +1,130 @@
+{
+    "name": "intelligence-change-case",
+    "displayName": "change-case",
+    "description": "Intelligence change case.",
+    "version": "0.0.1",
+    "publisher": "zhengxiaoyao0716",
+    "engines": {
+        "vscode": "^1.5.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.changeCase"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.changeCase",
+                "title": "Intelligence change case."
+            }
+        ],
+        "keybindings": {
+            "key": "Ctrl+U",
+            "command": "extension.changeCase",
+            "when": "editorTextFocus"
+        },
+        "configuration": {
+            "title": "Intelligence change case settings.",
+            "properties": {
+                "change-case.py": {
+                    "type": "array",
+                    "default": [
+                        "snake_case",
+                        "PascalCase",
+                        "CONST_CASE"
+                    ]
+                },
+                "change-case.go": {
+                    "type": "array",
+                    "default": [
+                            "camelCase",
+                            "PascalCase",
+                            "CONST_CASE"
+                        ]
+                },
+                "change-case.js": {
+                    "type": "array",
+                    "default": [
+                            "camelCase",
+                            "PascalCase",
+                            "CONST_CASE"
+                        ]
+                },
+                "change-case.ts": {
+                    "type": "array",
+                    "default": [
+                            "camelCase",
+                            "PascalCase",
+                            "CONST_CASE"
+                        ]
+                },
+                "change-case.java": {
+                    "type": "array",
+                    "default": [
+                            "camelCase",
+                            "PascalCase",
+                            "CONST_CASE"
+                        ]
+                },
+                "change-case.cs": {
+                    "type": "array",
+                    "default": [
+                            "camelCase",
+                            "PascalCase",
+                            "CONST_CASE"
+                        ]
+                },
+                "change-case.cpp": {
+                    "type": "array",
+                    "default": [
+                            "camelCase",
+                            "PascalCase",
+                            "CONST_CASE"
+                        ]
+                },
+                "change-case.c": {
+                    "type": "array",
+                    "default": [
+                            "snake_case",
+                            "camelCase",
+                            "PascalCase",
+                            "CONST_CASE"
+                        ]
+                },
+                "change-case.css": {
+                    "type": "array",
+                    "default": [
+                            "snake_case",
+                            "param-case"
+                        ]
+                },
+                "change-case.default": {
+                    "type": "array",
+                    "default": [
+                            "camelCase",
+                            "CONST_CASE"
+                        ]
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "devDependencies": {
+        "typescript": "^1.8.5",
+        "vscode": "^0.11.0"
+    },
+    "dependencies": {
+        "camel-case": "^3.0.0",
+        "constant-case": "^2.0.0",
+        "param-case": "^2.1.0",
+        "pascal-case": "^2.0.0",
+        "snake-case": "^2.1.0"
+    }
+}
