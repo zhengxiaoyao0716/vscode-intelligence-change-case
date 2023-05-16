@@ -5,7 +5,7 @@
     "version": "1.2.0",
     "publisher": "zhengxiaoyao0716",
     "engines": {
-        "vscode": "^1.5.0"
+        "vscode": "^1.74.0"
     },
     "categories": [
         "Other"
@@ -116,7 +116,7 @@
         "watch": "tsc -watch -p ./"
     },
     "devDependencies": {
-        "@types/vscode": "^1.78.0",
+        "@types/vscode": "^1.74.0",
         "typescript": "^5.0.4"
     },
     "dependencies": {
