@@ -2,7 +2,7 @@
     "name": "intelligence-change-case",
     "displayName": "change-case",
     "description": "Intelligence change case.",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "publisher": "zhengxiaoyao0716",
     "engines": {
         "vscode": "^1.5.0"
@@ -10,10 +10,8 @@
     "categories": [
         "Other"
     ],
-    "activationEvents": [
-        "onCommand:extension.changeCase"
-    ],
-    "main": "./out/src/extension",
+    "activationEvents": [],
+    "main": "./out/extension",
     "contributes": {
         "commands": [
             {
@@ -112,19 +110,16 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install"
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "lint": "eslint \"src/**/*.ts\"",
+        "watch": "tsc -watch -p ./"
     },
     "devDependencies": {
-        "typescript": "^1.8.5",
-        "vscode": "^0.11.0"
+        "@types/vscode": "^1.78.0",
+        "typescript": "^5.0.4"
     },
     "dependencies": {
-        "camel-case": "^3.0.0",
-        "constant-case": "^2.0.0",
-        "param-case": "^2.1.0",
-        "pascal-case": "^2.0.0",
-        "snake-case": "^2.1.0"
+        "change-case": "^4.1.2"
     }
 }

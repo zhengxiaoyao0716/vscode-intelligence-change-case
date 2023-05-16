@@ -1,43 +1,63 @@
-'use strict';
+"use strict";
 
-import * as vscode from 'vscode';
-
-export function changeCase() {
-    const { document, selections } = vscode.window.activeTextEditor;
-    const fileName = vscode.window.activeTextEditor.document.fileName;
-    const config = vscode.workspace.getConfiguration("change-case");
-    const cases = config[fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length)] || config["default"];
-    
-    vscode.window.activeTextEditor.edit(editBuilder => {
-        selections.forEach(selection => {
-            if (!selection.isSingleLine) {
-                return;
-            }
-            const range = new vscode.Range(selection.start, selection.end);
-            if (!selection.isEmpty && selection.isSingleLine) {
-                editBuilder.replace(selection, changeWordCase(document.getText(range), cases));
-            }
-        });
-    });
-}
+import * as vscode from "vscode";
+import * as cases from "change-case";
 
 const changeCaseFuncs = {
-    "snake_case": require('snake-case'),
-    "param-case": require('param-case'),
-    "camelCase": require('camel-case'),
-    "PascalCase": require('pascal-case'),
-    "CONST_CASE": require('constant-case')
+  camelCase: cases.camelCase,
+  "Capital Case": cases.capitalCase,
+  CONST_CASE: cases.constantCase,
+  "dot.case": cases.dotCase,
+  "Header-Case": cases.headerCase,
+  "no case": cases.noCase,
+  "param-case": cases.paramCase,
+  PascalCase: cases.pascalCase,
+  "Sentence case": cases.sentenceCase,
+  snake_case: cases.snakeCase,
+};
+type CaseName = keyof typeof changeCaseFuncs;
+type CaseFunc = (typeof changeCaseFuncs)[CaseName];
+
+export function changeCase() {
+  if (vscode.window.activeTextEditor == null) return;
+  const { document, selections } = vscode.window.activeTextEditor;
+  const fileExt = document.fileName.substring(
+    document.fileName.lastIndexOf(".") + 1,
+    document.fileName.length
+  );
+
+  const config = vscode.workspace.getConfiguration("change-case");
+  const caseNames: CaseName[] = config[fileExt] ?? config["default"] ?? [];
+  const caseFuncs = caseNames
+    .map((name) => changeCaseFuncs[name])
+    .filter((func) => func != null);
+  if (caseFuncs.length == 0) return;
+
+  vscode.window.activeTextEditor.edit((editBuilder) => {
+    selections.forEach((selection) => {
+      if (!selection.isSingleLine) {
+        return;
+      }
+      const range = selection.isEmpty
+        ? document.getWordRangeAtPosition(selection.active)
+        : selection;
+      if (range == null) return;
+      const text = document.getText(range);
+      editBuilder.replace(range, changeWordCase(text, caseFuncs));
+    });
+  });
 }
 
-function changeWordCase(word: string, cases: string[]): string {
-    let wordCases = [];
-    cases.forEach(caseStr => {
-        wordCases.push(changeCaseFuncs[caseStr](word));
-    });
-    for (let index = wordCases.length - 1; index >= 0; index--) {
-        if (wordCases[index] == word) {
-            return wordCases[index + 1] || wordCases[0];
-        }
+function changeWordCase(word: string, cases: CaseFunc[]): string {
+  let nextCased: string | undefined;
+  for (let index = cases.length - 1; index >= 0; index--) {
+    const caseFunc = cases[index];
+
+    const currCased = caseFunc(word);
+    if (word === currCased) {
+      return nextCased ?? cases[0](word);
     }
-    return wordCases[0];
+    nextCased = currCased;
+  }
+  return nextCased ?? cases[0](word);
 }
