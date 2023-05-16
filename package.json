@@ -3,6 +3,7 @@
     "displayName": "change-case",
     "description": "Intelligence change case.",
     "version": "1.2.0",
+    "repository": "https://github.com/zhengxiaoyao0716/vscode-intelligence-change-case",
     "publisher": "zhengxiaoyao0716",
     "engines": {
         "vscode": "^1.74.0"
